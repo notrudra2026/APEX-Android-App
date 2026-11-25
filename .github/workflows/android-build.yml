@@ -22,12 +22,13 @@ jobs:
             echo "APEX source ZIP not found" >&2
             exit 1
           fi
+      - name: Correct Coil dependency coordinate
+        run: |
+          sed -i 's#implementation("coil-compose:coil-compose:2.7.0")#implementation("io.coil-kt:coil-compose:2.7.0")#' android/app/build.gradle.kts
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      # GitHub-hosted Ubuntu runners already include Android command-line tools.
-      # Avoid setup-android's legacy "tools" package installation.
       - name: Configure Android SDK
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"

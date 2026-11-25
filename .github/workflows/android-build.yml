@@ -2,15 +2,21 @@ name: Android Build
 on:
   push:
     branches: [main, master]
-    paths: ['android/**', '.github/workflows/android-build.yml']
+    paths: ['APEX-Complete.zip', 'android/**', '.github/workflows/android-build.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Extract APEX source archive (if present)
+        run: |
+          if [ -f APEX-Complete.zip ]; then
+            unzip -o APEX-Complete.zip -d .
+          fi
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

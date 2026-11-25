@@ -22,6 +22,18 @@ jobs:
             echo "APEX source ZIP not found" >&2
             exit 1
           fi
+      - name: Inspect Kotlin source errors
+        run: |
+          echo "===== PROJECT FILES ====="
+          find android/app/src/main -type f -name '*.kt' | sort
+          echo "===== backendUrl REFERENCES AND DEFINITIONS ====="
+          grep -R -n -C 3 'backendUrl' android/app/src/main || true
+          echo "===== VOICE SCREEN ====="
+          sed -n '1,180p' android/app/src/main/java/com/apex/agent/ui/screens/VoiceScreen.kt
+          echo "===== SETTINGS SCREEN ====="
+          sed -n '1,180p' android/app/src/main/java/com/apex/agent/ui/screens/SettingsScreen.kt
+          echo "===== CHAT SCREEN ====="
+          sed -n '1,100p' android/app/src/main/java/com/apex/agent/ui/screens/ChatScreen.kt
       - name: Apply source build fixes
         run: |
           sed -i 's#implementation("coil-compose:coil-compose:2.7.0")#implementation("io.coil-kt:coil-compose:2.7.0")#' android/app/build.gradle.kts

@@ -37,6 +37,7 @@ jobs:
       - name: Apply source build fixes
         run: |
           sed -i 's#implementation("coil-compose:coil-compose:2.7.0")#implementation("io.coil-kt:coil-compose:2.7.0")#' android/app/build.gradle.kts
+          sed -i 's/-Xmx2048m/-Xmx1024m/' android/gradle.properties || true
           sed -i 's/^            ) { Text("Health Check") }/            }) { Text("Health Check") }/' android/app/src/main/java/com/apex/agent/ui/screens/SettingsScreen.kt
           # Compose compiler 1.5.14 requires Kotlin 1.9.24.
           sed -i 's/org.jetbrains.kotlin.android") version "1.9.22"/org.jetbrains.kotlin.android") version "1.9.24"/' android/build.gradle.kts
